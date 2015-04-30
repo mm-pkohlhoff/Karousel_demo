@@ -41,7 +41,8 @@
                         prev: '#prev',
                         next: '#next'
                     },
-                    imagesToShow: 3
+                    imagesToShow: 3,
+                    imagesToSlide: 3
                 });
                 break;
         };
@@ -174,6 +175,8 @@
     }
 
     var initializer_skew = function(carousel) {
+
+        carousel.container.addClass('carousel-skew');
 
         initializer_basic(carousel);
         _skew_helper(carousel.images);
