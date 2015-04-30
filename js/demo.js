@@ -50,8 +50,6 @@
 
         if (this.is_updating) return;
 
-        this.is_updating = true;
-
         var list_container = images.closest('ul'),
             direction_multiplier = dir == Direction.Prev ? -1 : 1,
             current_left = list_container.css('left'),
@@ -64,6 +62,9 @@
         } else if (current_image == 0 && dir == Direction.Prev) {
             // cycle to end
         } else {
+
+            this.is_updating = true;
+
             current_left = current_left == 'auto' ? 0 : parseInt(current_left);
 
             list_container
