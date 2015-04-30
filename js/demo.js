@@ -47,9 +47,15 @@
     };
 
     var update_basic = function (images, dir) {
+
+        if (this.is_updating) return;
+
+        this.is_updating = true;
+
         var list_container = images.closest('ul'),
             direction_multiplier = dir == Direction.Prev ? -1 : 1,
-            current_left = list_container.css('left');
+            current_left = list_container.css('left'),
+            self = this;
 
         var current_image = this.current_image = this.current_image || 0;
 
@@ -66,6 +72,8 @@
                 })
                 .animate({
                     left: '' + (current_left - IMAGE_WIDTH * direction_multiplier) + 'px'
+                }, function() {
+                    self.is_updating = false;
                 });
 
             this.current_image += (1*direction_multiplier);
