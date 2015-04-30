@@ -20,6 +20,17 @@
                     }
                 });
                 break;
+            case 'skew':
+                $("#carousel").carousel({
+                    initializer: initializer_skew,
+                    update: update_skew,
+                    controls: {
+                        container: $('#controls'),
+                        prev: '#prev',
+                        next: '#next'
+                    }
+                });
+                break;
             case 'basic':
             default:
                 $("#carousel").carousel({
@@ -136,6 +147,59 @@
         list_container.css('-webkit-transform', 'translateZ(-288px) rotateY('+this.current_rotateY+'deg)');
     };
 
+
+    // uses css3 transforms to skew all non-centered items
+    function _skew_helper(images) {
+        var length = images.length;
+
+        images.eq(0).css({
+                'width': '',
+                'height': '240px',
+                'margin-top': '-20px',
+                '-webkit-transform': 'none'
+            }
+        );
+
+        images.slice(1).each(function (i, el) {
+            $(el)
+                .css({
+                    '-webkit-transform': 'rotateY( 45deg )',
+                    'width': '' + (20 * ((length / 2) - (i / 2))) + 'px',
+                    'height': '200px',
+                    'margin-top': '0'
+                })
+                .parent('li').css({'-webkit-perspective': '300px'});
+
+        });
+    }
+
+    var initializer_skew = function(carousel) {
+
+        initializer_basic(carousel);
+        _skew_helper(carousel.images);
+        carousel.container.find('.jcarousel-clip').css({
+            'padding-top': '50px',
+            'padding-bottom': '50px',
+            'height': '300px'
+        });
+    };
+
+    var update_skew = function(images, dir) {
+
+        var list_items = images.map(function(i, el) {
+            return $(el).parent('li');
+        });
+
+        var first = list_items.shift();
+        images.push(images.shift());
+
+        first.remove();
+        images.closest('ul').append(first);
+
+        _skew_helper(images);
+
+    };
+
 })();
 
 /**
@@ -163,3 +227,17 @@ function getParameterByName(name) {
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
+(function( $ ) {
+    $.fn.pop = function() {
+        var top = this.get(-1);
+        this.splice(this.length-1,1);
+        return top;
+    };
+
+    $.fn.shift = function() {
+        var bottom = this.get(0);
+        this.splice(0,1);
+        return bottom;
+    };
+})( jQuery );
