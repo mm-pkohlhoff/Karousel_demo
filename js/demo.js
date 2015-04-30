@@ -53,10 +53,13 @@
 
         current_left = current_left == 'auto' ? 0 : Number(current_left);
 
-        list_container.css({
-            position: 'relative',
-            left: '' + (current_left - IMAGE_WIDTH) + 'px'
-        });
+        list_container
+            .css({
+                position: 'relative'
+            })
+            .animate({
+                left: '' + (current_left - IMAGE_WIDTH) + 'px'
+            });
     };
 
     // setup
