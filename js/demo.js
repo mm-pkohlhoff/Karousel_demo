@@ -1,3 +1,5 @@
+// instantiates carousel and contains plugins
+
 (function() {
 
     const IMAGE_WIDTH = 200;
@@ -13,11 +15,9 @@
                 next: '#next'
             }
         });
-
-
     });
 
-    // plugins
+    // plugins below
 
 //
 // expects structure like div > ul > li > img
@@ -46,19 +46,21 @@
             });
     };
 
-    var update_basic = function (images) {
-        var list_container = images.closest('ul');
+    var update_basic = function (images, dir) {
+        var list_container = images.closest('ul'),
+            direction_multiplier = dir == Direction.Prev ? -1 : 1,
+            current_left = list_container.css('left');
 
-        var current_left = list_container.css('left');
 
-        current_left = current_left == 'auto' ? 0 : Number(current_left);
+
+        current_left = current_left == 'auto' ? 0 : parseInt(current_left);
 
         list_container
             .css({
                 position: 'relative'
             })
             .animate({
-                left: '' + (current_left - IMAGE_WIDTH) + 'px'
+                left: '' + (current_left - IMAGE_WIDTH * direction_multiplier) + 'px'
             });
     };
 })();
