@@ -56,12 +56,12 @@ var Carousel = (function() {
 
 
     Carousel.prototype._prev = function (el) {
-        this.options.update(this.images, Direction.Prev);
+        this.options.update(this.images, Direction.Prev, this);
     };
 
 
     Carousel.prototype._next = function (el) {
-        this.options.update(this.images, Direction.Next);
+        this.options.update(this.images, Direction.Next, this);
     };
 
 
