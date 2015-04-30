@@ -58,12 +58,7 @@ ul {
 .carousel-skew li,
 .carousel-skew img {
     -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-    -o-transform-style: preserve-3d;
-    transform-style: preserve-3d;
-    -webkit-transition: -webkit-transform 1s;
-    -moz-transition: -moz-transform 1s;
-    -o-transition: -o-transform 1s;
+    -webkit-transition: -webkit-transform 0.2s;
 }
 
 .carousel3d li {

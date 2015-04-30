@@ -150,8 +150,10 @@
 
 
     // uses css3 transforms to skew all non-centered items
-    function _skew_helper(images) {
+    function _skew_helper(images, skip) {
         var length = images.length;
+
+        skip = skip || 0;
 
         images.eq(0).css({
                 'width': '',
@@ -161,7 +163,7 @@
             }
         );
 
-        images.slice(1).each(function (i, el) {
+        images.slice(1 + skip).each(function (i, el) {
             $(el)
                 .css({
                     '-webkit-transform': 'rotateY( 45deg )',
@@ -189,18 +191,29 @@
 
     var update_skew = function(images, dir) {
 
-        var list_items = images.map(function(i, el) {
+        var list_items = images.map(function (i, el) {
             return $(el).parent('li');
         });
 
         var first = list_items.shift();
         images.push(images.shift());
 
-        first.remove();
-        images.closest('ul').append(first);
+        _skew_helper(images, 1);
 
-        _skew_helper(images);
+        var after_animate = function() {
 
+            first.remove();
+            list_container.css('position', '');
+            list_container.css('left', '');
+            images.closest('ul').append(first);
+
+            list_container.css('position', '');
+            list_container.css('left', '');
+        }
+
+        var list_container = images.closest('ul');
+        list_container.css('position', 'relative');
+        list_container.animate({left: '-50px'}, 100, after_animate);
     };
 
 })();
