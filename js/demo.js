@@ -51,17 +51,27 @@
             direction_multiplier = dir == Direction.Prev ? -1 : 1,
             current_left = list_container.css('left');
 
+        var current_image = this.current_image = this.current_image || 0;
+
+        if ((current_image == images.length - 1) && dir == Direction.Next) {
+            // cycle to begin
+        } else if (current_image == 0 && dir == Direction.Prev) {
+            // cycle to end
+        } else {
+            current_left = current_left == 'auto' ? 0 : parseInt(current_left);
+
+            list_container
+                .css({
+                    position: 'relative'
+                })
+                .animate({
+                    left: '' + (current_left - IMAGE_WIDTH * direction_multiplier) + 'px'
+                });
+
+            this.current_image += (1*direction_multiplier);
+        }
 
 
-        current_left = current_left == 'auto' ? 0 : parseInt(current_left);
-
-        list_container
-            .css({
-                position: 'relative'
-            })
-            .animate({
-                left: '' + (current_left - IMAGE_WIDTH * direction_multiplier) + 'px'
-            });
     };
 })();
 
