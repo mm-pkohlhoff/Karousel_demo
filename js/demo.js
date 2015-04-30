@@ -20,7 +20,7 @@ $(function() {
 //
 var initializer_basic = function(container) {
 
-  var style = "position: relative; overflow: hidden; width: 200px; height: 218px;",
+  var style = "position: relative; overflow: hidden; width: 200px; height: 199px;",
   		clip = "<div class='jcarousel-clip' style='{style}'></div>"
   				.supplant({style: style}),
   		inner = container.children();
