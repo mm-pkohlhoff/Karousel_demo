@@ -1,5 +1,7 @@
 (function() {
 
+    const IMAGE_WIDTH = 200;
+
     $(function () {
 
         $("#carousel").carousel({
@@ -20,15 +22,23 @@
 //
 // expects structure like div > ul > li > img
 //
-    var initializer_basic = function (container) {
+    var initializer_basic = function (carousel) {
 
-        var style = "position: relative; overflow: hidden; width: 200px; height: 199px;",
+        var container = carousel.container;
+
+        var style = "position: relative; overflow: hidden; width: "+IMAGE_WIDTH+"px; height: 199px;",
             clip = "<div class='jcarousel-clip' style='{style}'></div>"
                 .supplant({style: style}),
             inner = container.children();
 
         inner.wrap(clip);
 
+        // set the ul to a width that holds the lis
+        inner
+            .css({
+                width: ''+(IMAGE_WIDTH*carousel.images.length)+'px'
+            });
+        // set the lis to float inline
         inner
             .find("li")
             .css({
@@ -36,8 +46,17 @@
             });
     };
 
-    var update_basic = function () {
+    var update_basic = function (images) {
+        var list_container = images.closest('ul');
 
+        var current_left = list_container.css('left');
+
+        current_left = current_left == 'auto' ? 0 : Number(current_left);
+
+        list_container.css({
+            position: 'relative',
+            left: '' + (current_left - IMAGE_WIDTH) + 'px'
+        });
     };
 
     // setup
@@ -68,11 +87,11 @@
     var Carousel = function(container, options) {
 
         this.container = container;
-        var images = this.images = container.find("img");
+        this.images = container.find("img");
 
         this.options = options = $.extend({}, defaults, options);
 
-        options.initializer(container);
+        options.initializer(this);
 
         this.initialize_controls();
     };
@@ -82,29 +101,32 @@
         var controls = this.options.controls,
             control_container = controls.container,
             prev = controls.prev,
-            next = controls.next;
+            next = controls.next,
+            self = this;
 
         control_container.on('click', function(e) {
             var el = $(e.target);
 
             switch (true) {
                 case el.is(prev):
-                    movePrev(el);
+                    self._prev(el);
                     break;
                 case el.is(next):
-                    moveNext(el);
-                    break
+                    self._next(el);
+                    break;
                 default:
             }
         });
+    };
 
-        var movePrev = function(el) {
-            console.info("prev")
-        };
 
-        var moveNext = function(el) {
-            console.info("next");
-        };
+    Carousel.prototype._prev = function (el) {
+        this.options.update(this.images);
+    };
+
+
+    Carousel.prototype._next = function (el) {
+        this.options.update(this.images);
     };
 
 })();
