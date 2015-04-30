@@ -4,30 +4,38 @@
 
     const IMAGE_WIDTH = 200;
 
-//    $(function () {
-//
-//        $("#carousel").carousel({
-//            initializer: initializer_basic,
-//            update: update_basic,
-//            controls: {
-//                container: $('#controls'),
-//                prev: '#prev',
-//                next: '#next'
-//            }
-//        });
-//    });
-
     $(function () {
 
-        $("#carousel").carousel({
-            initializer: initializer_3d,
-            update: update_3d,
-            controls: {
-                container: $('#controls'),
-                prev: '#prev',
-                next: '#next'
-            }
-        });
+        switch (getParameterByName('mode'))
+        {
+
+            case '3d':
+                 $("#carousel").carousel({
+                    initializer: initializer_3d,
+                    update: update_3d,
+                    controls: {
+                        container: $('#controls'),
+                        prev: '#prev',
+                        next: '#next'
+                    }
+                });
+                break;
+            case 'basic':
+            default:
+                $("#carousel").carousel({
+                    initializer: initializer_basic,
+                    update: update_basic,
+                    controls: {
+                        container: $('#controls'),
+                        prev: '#prev',
+                        next: '#next'
+                    }
+                });
+                break;
+        };
+
+        $("#carousel").show();
+
     });
 
     // plugins below
@@ -146,3 +154,10 @@ String.prototype.supplant = function (o) {
         }
     );
 };
+
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
