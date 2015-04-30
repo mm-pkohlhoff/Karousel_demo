@@ -29,7 +29,8 @@
                         container: $('#controls'),
                         prev: '#prev',
                         next: '#next'
-                    }
+                    },
+                    imagesToShow: 3
                 });
                 break;
         };
@@ -47,7 +48,8 @@
 
         var container = carousel.container;
 
-        var style = "position: relative; overflow: hidden; width: "+IMAGE_WIDTH+"px; height: 199px;",
+        var width = IMAGE_WIDTH*carousel.options.imagesToShow;
+        var style = "position: relative; overflow: hidden; width: "+ width+"px; height: 199px;",
             clip = "<div class='jcarousel-clip' style='{style}'></div>"
                 .supplant({style: style}),
             inner = container.children();
