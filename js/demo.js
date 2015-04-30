@@ -4,11 +4,24 @@
 
     const IMAGE_WIDTH = 200;
 
+//    $(function () {
+//
+//        $("#carousel").carousel({
+//            initializer: initializer_basic,
+//            update: update_basic,
+//            controls: {
+//                container: $('#controls'),
+//                prev: '#prev',
+//                next: '#next'
+//            }
+//        });
+//    });
+
     $(function () {
 
         $("#carousel").carousel({
-            initializer: initializer_basic,
-            update: update_basic,
+            initializer: initializer_3d,
+            update: update_3d,
             controls: {
                 container: $('#controls'),
                 prev: '#prev',
@@ -82,6 +95,37 @@
 
 
     };
+
+    // uses css3 transforms w/classes
+    // taken from
+    // http://desandro.github.io/3dtransforms/examples/carousel-01.html
+    var initializer_3d = function(carousel) {
+
+        carousel.container.addClass('carousel3d');
+
+        carousel.container.css({
+            position: 'relative',
+            height: '240px'
+        });
+
+        var container = carousel.controls.container;
+        container.css('display', 'inline-block');
+        container.parent('div').css('text-align', 'center');
+    };
+
+    var update_3d = function (images, dir) {
+        var list_container = images.closest('ul');
+
+        this.current_rotateY = this.current_rotateY || 0;
+
+        var rotate_amount = dir == Direction.Next ? -40 : 40;
+
+        this.current_rotateY = this.current_rotateY + rotate_amount;
+
+        list_container.css('-webkit-transform', '');
+        list_container.css('-webkit-transform', 'translateZ(-288px) rotateY('+this.current_rotateY+'deg)');
+    };
+
 })();
 
 /**

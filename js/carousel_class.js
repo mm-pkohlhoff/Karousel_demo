@@ -24,6 +24,8 @@ var Carousel = (function() {
 
         this.options = options = $.extend({}, defaults, options);
 
+        this.controls = options.controls;
+
         options.initializer(this);
 
         this.initialize_controls();
